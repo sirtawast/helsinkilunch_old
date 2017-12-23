@@ -6,7 +6,7 @@ _**HELSINKILUNCH – THE CULINARY EXPERIENCE**_
 
 ---
 
-All your favourite Pitäjänmäki restaurants in one place.
+All your favourite Helsinki restaurants in one place.
 
 Very quick hack at the moment.
 
