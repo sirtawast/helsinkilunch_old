@@ -1,0 +1,29 @@
+language: node_js
+dist: trusty
+node_js: '6'
+sudo: required
+install:
+- sudo apt-get install git screen
+- npm install -g phantomjs-prebuilt
+- npm install
+before_script:
+- npm run crawl
+script:
+- ./bin/test.sh
+before_deploy:
+  - mv static/crawled/ /tmp/crawled/
+  - npm run build
+  - mv dist/ /tmp/dist/
+  - openssl des3 -d -in helsinkilunch.crypted -out /tmp/deploy_key -k $PRIVATE_KEY_PASSWORD;
+  - chmod 0600 /tmp/deploy_key
+  - eval `ssh-agent -s`
+  - ssh-add /tmp/deploy_key
+  - chmod 775 ./bin/deploy.sh
+deploy: 
+  skip_cleanup: true
+  provider: script
+  script: ./bin/deploy.sh
+  on:
+    branch: master
+after_deploy:
+  - shred /tmp/deploy_key
