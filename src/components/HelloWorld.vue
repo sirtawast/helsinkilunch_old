@@ -26,6 +26,12 @@
     </div>
     </div>
     </div>
+    <hr>
+    <a href="https://travis-ci.org/sirtawast/helsinkilunch/"><img src="https://travis-ci.org/sirtawast/helsinkilunch.svg?branch=master" alt=""></a>
+    &bull; 
+    <a href="https://github.com/sirtawast/helsinkilunch/">GitHub</a> 
+    &bull; 
+    <a href="https://github.com/sirtawast/helsinkilunch/issues/">Issues</a>
   </div>
 </template>
 
