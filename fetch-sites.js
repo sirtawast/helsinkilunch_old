@@ -24,7 +24,7 @@ casper.start().eachThen(urls, function(url) {
     var slug = restaurants[i].slug;
     this.echo("Fetching " + slug + " using '" + selector +"'");
     this.waitForSelector(selector, function() {
-      var html = this.getHTML(selector, true);
+      var html = this.getHTML(selector, true)
       if (false) {
         var elements = this.getElementsInfo('table');
         fs.write(cwd+"/static/crawled/" + slug + ".json", JSON.stringify({html: utils.replaceAllTags(elements[0].html) + utils.replaceAllTags(elements[1].html)}), 'w');
