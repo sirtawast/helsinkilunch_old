@@ -5,7 +5,8 @@
       <div class="row">
         <div class="col-12">
           <p>Why don't you fucking go to <strong>{{ randomLunchPlace }}</strong></p>
-          <p>Wait, that's a <span class="btn btn-primary" v-on:click="newRandomPlace">horrible idea</span></p>
+          <p>Wait, that's a <span class="btn btn-primary" v-on:click="onRandomClick">horrible idea</span></p>
+          <p style="font-weight: 600; color: firebrick;" v-if="!isFirstPick">RESULT HAS BEEN MANIPULATED!</p>
           <hr>
 
           <p>What the shit let me browse some menus:</p>
@@ -43,7 +44,8 @@ export default {
       menus: [],
       randomLunchPlace: "",
       mapping: mapping,
-      random: mapping,
+      availableLunchPlaces: [],
+      isFirstPick: true,
     }
   },
   beforeMount(){
@@ -51,8 +53,17 @@ export default {
     this.newRandomPlace();
   },
   methods: {
+    onRandomClick() {
+      this.isFirstPick = false;
+      this.newRandomPlace();
+    },
     newRandomPlace() {
-      this.randomLunchPlace = this.mapping.fromMenu[this.randomRange(0, this.mapping.fromMenu.length)].name  
+      if (this.availableLunchPlaces.length === 0) {
+        this.availableLunchPlaces = [...this.mapping.fromMenu];
+      }
+      const i = this.randomRange(0, this.availableLunchPlaces.length);
+      this.randomLunchPlace = this.availableLunchPlaces[i].name;
+      this.availableLunchPlaces.splice(i,1);
     },
     randomRange(min, max) {
       return parseInt(Math.random() * (max - min) + min, 10);
