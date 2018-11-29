@@ -16,16 +16,16 @@
 
     <div class="container-fluid">
       <div class="row">
-    <div class="col-12 col-sm-6 col-md-4 mb-4" v-for="(r, index) in menus">
-      <div class="card">
-      <h1>{{ r.name }}</h1>
-      <details>
-        <summary>Menu</summary>
-        <p v-html="r.html"></p>
-      </details>
-    </div>
-    </div>
-    </div>
+        <div class="col-12 col-sm-6 col-md-4 mb-4" v-for="(r, index) in menus">
+          <div class="card">
+            <h1>{{ r.name }}</h1>
+            <details>
+              <summary>Menu</summary>
+              <p v-html="r.html"></p>
+            </details>
+          </div>
+        </div>
+      </div>
     </div>
     <hr>
     <a href="https://travis-ci.org/sirtawast/helsinkilunch/"><img src="https://travis-ci.org/sirtawast/helsinkilunch.svg?branch=master" alt=""></a>
@@ -37,56 +37,56 @@
 </template>
 
 <script>
-import mapping from '../../lib/mapping.js';
-export default {
-  data() {
-    return {
-      menus: [],
-      randomLunchPlace: "",
-      mapping: mapping,
-      availableLunchPlaces: [],
-      isFirstPick: true,
-    }
-  },
-  beforeMount(){
-    this.fetchData();
-    this.newRandomPlace();
-  },
-  methods: {
-    onRandomClick() {
-      this.isFirstPick = false;
+  import mapping from '../../lib/mapping.js';
+  export default {
+    data() {
+      return {
+        menus: [],
+        randomLunchPlace: "",
+        mapping: mapping,
+        availableLunchPlaces: [],
+        isFirstPick: true,
+      }
+    },
+    beforeMount(){
+      this.fetchData();
       this.newRandomPlace();
     },
-    newRandomPlace() {
-      if (this.availableLunchPlaces.length === 0) {
-        this.availableLunchPlaces = [...this.mapping.fromMenu];
-      }
-      const i = this.randomRange(0, this.availableLunchPlaces.length);
-      this.randomLunchPlace = this.availableLunchPlaces[i].name;
-      this.availableLunchPlaces.splice(i,1);
-    },
-    randomRange(min, max) {
-      return parseInt(Math.random() * (max - min) + min, 10);
-    },
-    fetchData() {
-      this.mapping.restaurants.forEach((r) => {
-        let path = "/";
-
-        if (process.env.NODE_ENV === 'production') {
-          path = "/helsinkilunch/";
+    methods: {
+      onRandomClick() {
+        this.isFirstPick = false;
+        this.newRandomPlace();
+      },
+      newRandomPlace() {
+        if (this.availableLunchPlaces.length === 0) {
+          this.availableLunchPlaces = [...this.mapping.fromMenu];
         }
+        const i = this.randomRange(0, this.availableLunchPlaces.length);
+        this.randomLunchPlace = this.availableLunchPlaces[i].name;
+        this.availableLunchPlaces.splice(i,1);
+      },
+      randomRange(min, max) {
+        return parseInt(Math.random() * (max - min) + min, 10);
+      },
+      fetchData() {
+        this.mapping.restaurants.forEach((r) => {
+          let path = "/";
 
-        this.$http.get(`${path}static/crawled/${r.slug}.json`).then((res) => {
-          this.menus.push({html: res.data.html, name: r.slug});
+          if (process.env.NODE_ENV === 'production') {
+            path = "/helsinkilunch/";
+          }
+
+          this.$http.get(`${path}static/crawled/${r.slug}.json`).then((res) => {
+            this.menus.push({html: res.data.html, name: r.slug});
+          });
         });
-      });
+      }
     }
   }
-}
 
-window.Array.prototype.insert = function(index, item) {
-  this.splice(index, 0, item);
-};
+  window.Array.prototype.insert = function(index, item) {
+    this.splice(index, 0, item);
+  };
 
 </script>
 
